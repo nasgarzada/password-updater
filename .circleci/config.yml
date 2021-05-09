@@ -17,16 +17,14 @@ commands:
   docker_push:
     steps:
       - run:
-          name: build image
+          name: Push image to docker hub
           command: |
             TAG_VERSION=$DOCKER_USERNAME/$APP_NAME:v2.0.$CIRCLE_BUILD_NUM
             TAG_LATEST=$DOCKER_USERNAME/$APP_NAME:latest
             docker build -t $TAG_VERSION -t $TAG_LATEST .
-      - run:
-          name: push image
-          command: |
             docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
-            docker push $IMAGE_NAME
+            docker push $TAG_VERSION
+            docker push $TAG_LATEST
 
 jobs:
   validate_code:
