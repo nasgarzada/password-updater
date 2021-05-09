@@ -19,8 +19,8 @@ commands:
       - run:
           name: Push image to docker hub
           command: |
-            TAG_VERSION=$DOCKER_USERNAME/$APP_NAME:v2.0.$CIRCLE_BUILD_NUM
-            TAG_LATEST=$DOCKER_USERNAME/$APP_NAME:latest
+            TAG_VERSION=$DOCKER_USERNAME/$IMAGE_NAME:v2.0.$CIRCLE_BUILD_NUM
+            TAG_LATEST=$DOCKER_USERNAME/$IMAGE_NAME:latest
             docker build -t $TAG_VERSION -t $TAG_LATEST .
             docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN
             docker push $TAG_VERSION
