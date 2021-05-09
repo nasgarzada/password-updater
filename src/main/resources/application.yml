@@ -1,0 +1,18 @@
+update:
+  query: >
+    update public.auth_user
+    set salt= :salt,
+        verifier= :verifier
+    where login = :login
+      and status = 'ACTIVE'
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+
+logging:
+  level:
+    io.tries.password.generator: debug
