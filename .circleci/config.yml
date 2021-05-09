@@ -1,0 +1,54 @@
+version: 2.1
+
+executors:
+  openjdk:
+    docker:
+      - image: circleci/openjdk:11-jdk-node-browsers
+        environment:
+          APP_NAME: password-updater
+    working_directory: ~/password-updater
+
+commands:
+  package:
+    steps:
+      - run:
+          name: package
+          command: gradle build -x test
+  docker_push:
+    steps:
+      - run:
+          name: build image
+          command: docker build -t $IMAGE_NAME:$TAG .
+      - run:
+          name: push image
+          command: docker push $IMAGE_NAME:$TAG
+
+
+jobs:
+  validate_code:
+    executor: openjdk
+    steps:
+      - checkout
+      - restore_cache:
+          key: $APP_NAME-{{ checksum "build.gradle" }}
+      - package
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: $APP_NAME-{{ checksum "build.gradle" }}
+          when: always
+  push_image:
+    executor: openjdk
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - docker_push
+
+
+workflows:
+  version: 2
+  password-updater_workflow:
+    jobs:
+      - validate_code
+      - push_image
