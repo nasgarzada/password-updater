@@ -22,8 +22,7 @@ commands:
       - run:
           name: push image
           command: |
-            docker login -u $DOCKER_USERNAME
-            echo $DOCKER_TOKEN
+            echo $DOCKER_TOKEN | docker login -u $DOCKER_LOGIN --password-stdin
             docker push $IMAGE_NAME
 
 jobs:
