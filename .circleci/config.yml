@@ -21,8 +21,10 @@ commands:
           command: docker build -t $IMAGE_NAME .
       - run:
           name: push image
-          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASS && docker push $IMAGE_NAME
-
+          command: |
+          docker login -u $DOCKER_USERNAME
+          echo $DOCKER_TOKEN
+          docker push $IMAGE_NAME
 
 jobs:
   validate_code:
