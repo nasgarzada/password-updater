@@ -18,7 +18,7 @@ commands:
     steps:
       - run:
           name: build image
-          command: docker build -t $IMAGE_NAME
+          command: docker build -t $IMAGE_NAME .
       - run:
           name: push image
           command: docker push $IMAGE_NAME
@@ -37,6 +37,11 @@ jobs:
             - ~/.gradle
           key: $APP_NAME-{{ checksum "build.gradle" }}
           when: always
+      - persist_to_workspace:
+          root: build/libs
+          paths:
+            - ./
+
   push_image:
     executor: openjdk
     steps:
