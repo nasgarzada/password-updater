@@ -22,9 +22,9 @@ commands:
       - run:
           name: push image
           command: |
-          docker login -u $DOCKER_USERNAME
-          echo $DOCKER_TOKEN
-          docker push $IMAGE_NAME
+            docker login -u $DOCKER_USERNAME
+            echo $DOCKER_TOKEN
+            docker push $IMAGE_NAME
 
 jobs:
   validate_code:
