@@ -51,4 +51,7 @@ workflows:
   password-updater_workflow:
     jobs:
       - validate_code
-      - push_image
+      - push_image:
+          context: deploy
+          requires:
+            - validate_code
